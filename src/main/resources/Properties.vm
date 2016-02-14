@@ -1,0 +1,27 @@
+package $packagename;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ${classname}s {
+	#foreach($property in $properties)
+/** ${property.description} */
+	public static final $classname ${property.name} = new $classname("${property.value}");
+	#end
+
+	public static class $classname
+	#if($!superClass) extends $superClass #end
+	#if( $!interfaces ) implements $interfaces #end
+	{
+		private final String propertyKey;
+
+		public $classname(final String propertyKey) {
+			this.propertyKey = propertyKey;
+		}
+
+		public String getKey(){
+			return propertyKey;
+		}
+	}
+}
