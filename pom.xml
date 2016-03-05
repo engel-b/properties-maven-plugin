@@ -5,30 +5,63 @@
 	<artifactId>properties-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>properties-maven-plugin Maven Mojo</name>
-	<url>http://maven.apache.org</url>
+	<name>properties-maven-plugin</name>
+
+	<url>${project.url}</url>
+	<description>Maven plugin to generate classes with property-keys</description>
+	<inceptionYear>2016</inceptionYear>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.url>http://github.com/justcoke/properties-maven-plugin</project.url>
+
 		<mavenVersion>3.3.9</mavenVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
-	<!-- <scm> -->
-	<!-- <url></url> -->
-	<!-- <connection></connection> -->
-	<!-- <developerConnection></developerConnection> -->
-	<!-- </scm> -->
+	<developers>
+		<developer>
+			<name>Björn Engel</name>
+			<url>http://about.me/bjoernengel</url>
+			<timezone>Europe/Berlin</timezone>
+		</developer>
+	</developers>
 
-	<!-- <issueManagement> -->
-	<!-- <system>GitHub</system> -->
-	<!-- <url></url> -->
-	<!-- </issueManagement> -->
+	<licenses>
+		<license>
+			<name>Apache 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
-	<description>
-	TODO
-	</description>
+	<scm>
+		<developerConnection>scm:git:git@github.com:justcoke/properties-maven-plugin.git</developerConnection>
+		<connection>scm:git:https://github.com/justcoke/properties-maven-plugin.git</connection>
+		<url>https://github.com/justcoke/properties-maven-plugin.git</url>
+	</scm>
+
+	<!-- configure Maven to deploy to the OSSRH Nexus server with the Nexus
+		Staging Maven plugin -->
+	<distributionManagement>
+		<!-- the Maven deploy plugin needs a full distributionManagement section -->
+		<repository>
+			<id>ossrh-release</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<uniqueVersion>true</uniqueVersion>
+		</repository>
+		<snapshotRepository>
+			<id>ossrh-snapshot</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+		<!-- The above configurations will get the user account details to deploy
+			to OSSRH from Maven settings.xml file. -->
+	</distributionManagement>
+
 
 	<dependencies>
 		<!-- Maven dependencies -->
@@ -73,6 +106,18 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<releaseProfiles>release</releaseProfiles>
+				</configuration>
+			</plugin>
+		</plugins>
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -167,6 +212,58 @@
 	</reporting>
 
 	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+								<configuration>
+									<additionalparam>-Xdoclint:none</additionalparam>
+									<show>public</show>
+									<quiet>true</quiet>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<profile>
 			<id>run-its</id>
 			<build>
