@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.justcoke</groupId>
 	<artifactId>properties-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>properties-maven-plugin</name>
 
 	<url>${project.url}</url>
@@ -41,8 +42,7 @@
 		<developerConnection>scm:git:git@github.com:justcoke/properties-maven-plugin.git</developerConnection>
 		<connection>scm:git:https://github.com/justcoke/properties-maven-plugin.git</connection>
 		<url>https://github.com/justcoke/properties-maven-plugin.git</url>
-	  <tag>HEAD</tag>
-  </scm>
+	</scm>
 
 	<!-- configure Maven to deploy to the OSSRH Nexus server with the Nexus
 		Staging Maven plugin -->
